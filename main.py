@@ -1,11 +1,14 @@
 from decorators import decorators2
-
+from pathlib import Path
 
 import requests
 from bs4 import BeautifulSoup
 from pprint import pprint
 
-KEYWORDS = ['дизайн', 'фото', 'web', 'python','пластиковое','обеспечить']
+dir_path = Path.cwd()
+path = Path(dir_path, 'logs.txt')
+
+KEYWORDS = ['дизайн', 'фото', 'web', 'python','пластиковое','есть']
 URL = 'https://habr.com'
 HEADERS = {
     'authority': 'log.strm.yandex.ru',
@@ -23,7 +26,7 @@ HEADERS = {
     'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36',
 }
 
-@decorators2
+@decorators2(path)
 def parser():
     response = requests.get(URL, headers=HEADERS)
     text = response.text
@@ -40,11 +43,11 @@ def parser():
                 if i in KEYWORDS:
                     return f'{datetime.text} - {href.text} - {URL}{link}'
 
-@decorators2
+@decorators2(path)
 def calculator(a, b, c):
     return a**b * c                     
 
 
 if __name__=='__main__':                    
-    pprint(parser()) 
+    pprint(parser())
     pprint(calculator(2, 4, 7))
